@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include xsi_healthcare_portal *.css
+recursive-include xsi_healthcare_portal *.csv
+recursive-include xsi_healthcare_portal *.html
+recursive-include xsi_healthcare_portal *.ico
+recursive-include xsi_healthcare_portal *.js
+recursive-include xsi_healthcare_portal *.json
+recursive-include xsi_healthcare_portal *.md
+recursive-include xsi_healthcare_portal *.png
+recursive-include xsi_healthcare_portal *.py
+recursive-include xsi_healthcare_portal *.svg
+recursive-include xsi_healthcare_portal *.txt
+recursive-exclude xsi_healthcare_portal *.pyc
