@@ -4,11 +4,11 @@ import json
 @frappe.whitelist(allow_guest=True)
 def test0002():
     subject = "FOR HEALTH CARE"
-    recipient = "melvin.xurpas@gmail.com"
+    recipient = ["melvin.xurpas@gmail.com"]
     message = "THIS IS SAMPLE FRAPPE MESSAGE"
     # email_queue = EmailQueue()
     try:
-        frappe.sendmail(recipients=[recipient], subject=subject, message=message)
+        frappe.sendmail(recipients=recipient, subject=subject, message=message)
     except Exception as e:
         return e
     

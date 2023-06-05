@@ -17,16 +17,16 @@ def send_email_to_poe(first_name, middle_name, last_name, mobile, email):
     message = f"""Hi PEOs,
 
 A new record has been submitted. Kindly reach out to the patient and discuss Home Healthlink's program and services.
-
-Name: {first_name}, {middle_name}, {last_name}
-Mobile: {mobile}
-Email: {email}
+<br><br>
+Name: {first_name}, {middle_name}, {last_name}<br>
+Mobile: {mobile}<br>
+Email: {email}<br><br>
 
 *** This is a system generated email, please don't reply. ***
 """
     # email_queue = EmailQueue()
     try:
-        frappe.sendmail(recipients=[recipient], subject=subject, message=message)
+        frappe.sendmail(recipients=recipient, subject=subject, message=message)
     except Exception as e:
         return e
     

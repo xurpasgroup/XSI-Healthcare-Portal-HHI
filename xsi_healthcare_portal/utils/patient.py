@@ -1,6 +1,6 @@
 import frappe
 import json
-from utils.email import send_email_to_poe
+from xsi_healthcare_portal.utils.email import send_email_to_poe
 
 def insert_patient(data):
     try:
@@ -47,7 +47,7 @@ def insert_patient(data):
         # })
 
         send_mail_result = send_email_to_poe(firstname, middlename, lastname, mobile, email)
-        if send_mail_result.status != "Success":
+        if send_mail_result != "Success":
             return  send_mail_result
 
     except Exception as e:

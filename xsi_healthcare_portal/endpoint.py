@@ -1,8 +1,8 @@
 import frappe
 import json
-from utils.patient import insert_patient
+from xsi_healthcare_portal.utils.patient import insert_patient
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def register_patient():
    data = json.loads(frappe.request.data)
 
@@ -12,6 +12,10 @@ def register_patient():
    else:
       return result
 
+
+# @frappe.whitelist(allow_guest=True)
+# def test_endpoint():
+#    return "TESTING SUCCESS"
 
 
    
