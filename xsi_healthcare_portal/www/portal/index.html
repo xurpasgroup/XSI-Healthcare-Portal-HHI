@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web Page with Vue.js</title>
+  <title>Patient Portal</title>
   <style>
     /* Global Styles */
     * {
@@ -32,14 +32,18 @@
       margin-left: 200px;
       padding: 20px;
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 35%);
+      /* grid-template-columns: 200px 200px; */
+
+
       gap: 10px;
     }
 
     .form-field {
       display: flex;
       flex-direction: column;
-      margin-bottom: 20px;
+      margin-bottom: 20px; 
+
     }
 
     .form-field label {
@@ -76,6 +80,7 @@
     label {
       font-weight: bold;
       margin-bottom: 5px;
+      width:50%;
     }
 
     input {
@@ -83,7 +88,7 @@
       font-size: 14px;
       border-radius: 5px;
       border: 1px solid #ccc;
-      height: 40px;
+      height: 35px;
     }
 
     select {
@@ -130,8 +135,8 @@
 
     <!-- Content -->
     <div class="content">
-      <h1>Your Information</h1>
-
+      <h2>Your Information</h2>
+      <br><br>
       <div class="form-field">
         <label for="first-name" class="required">First Name:</label>
         <input type="text" id="first-name" v-model="firstName" required>
