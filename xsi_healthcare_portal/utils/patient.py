@@ -57,3 +57,16 @@ def insert_patient(data):
         return e
 
     return "Success"
+
+@frappe.whitelist()
+def get_patient_details(name):
+
+    Patient = frappe.get_all("Patient", filters={'name': name},fields={"name","status","email","mobile","first_name","middle_name","last_name","sex","dob","guardian"})
+
+    Patient_Address = frappe.get_last_doc("Address", filters={'name': name+"-Billing"})
+
+    Address = f"""{Patient_Address.address_line1} {Patient_Address.city} City"""
+
+    Patient[0]["address"] = Address
+
+    return Patient

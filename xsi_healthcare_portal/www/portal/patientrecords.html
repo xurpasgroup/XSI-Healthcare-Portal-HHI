@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Details</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+  
+  /* frappe.response.http_status_code = 400 */
+
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background-color: #A9C460;
+      width: 200px;
+      height: 100vh;
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Content */
+    .content {
+      margin-left: 200px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+
+    .form-field label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-field label.required::after {
+      content: '*';
+      color: red;
+    }
+
+    .input-wrapper {
+      width: 100%;
+    }
+
+    .button-container {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .logo {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .logo img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input {
+      padding: 8px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      height: 40px;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      box-sizing: border-box;
+      height: 40px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #A9C460;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      align-self: flex-end;
+      /* Align button to the right */
+      width: 120px;
+      /* Set button width to smaller value */
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      grid-column: 1 / -1;
+    }
+    .href-dropdown {
+      font-size: medium;
+      color: white;
+      text-decoration: none;
+      padding:10%;
+      padding-left:20%;
+    }
+    .href-dropdown:hover {
+      font-size: medium;
+      color: white;
+      text-decoration: none;
+      background-color: #52a14a;
+      padding:10%;
+      padding-left:20%;
+    }
+    .active {
+      background-color: #3e8d37;
+    }
+    .rotate-span {
+    transform: rotate(180deg);
+    }
+    @keyframes flyOutAnimation {
+     from {
+       opacity: 0;
+       transform: translateY(-10px);
+     }
+     to {
+       opacity: 1;
+       transform: translateY(0);
+     }
+    }
+
+    .fly-out {
+      animation: flyOutAnimation 0.3s ease-in-out;
+    }
+
+  </style>
+  <style>
+        .text-semi-bold {
+      font-weight: 500;
+    }
+
+    .text-bold {
+      font-weight: 700;
+    }
+
+    .text-light {
+      color: var(--light-gray);
+    }
+
+    .text-primary {
+      color: var(--blue);
+    }
+
+    .text-secondary {
+      color: var(--gray);
+    }
+
+    .text-success {
+      color: var(--light-green);
+    }
+
+    .text-warning {
+      color: orange;
+    }
+
+    .text-danger {
+      color: red;
+    }
+
+    .text-green {
+      color: var(--green);
+    }
+
+    /* background */
+    .bg-light {
+      background-color: var(--light-gray);
+    }
+
+    .bg-primary {
+      background-color: var(--blue);
+    }
+
+    .bg-secondary {
+      background-color: var(--gray);
+    }
+
+    .bg-success {
+      background-color: var(--light-green);
+    }
+
+    .bg-warning {
+      background-color: orange;
+    }
+
+    .bg-danger {
+      background-color: red;
+    }
+
+    .bg-greeen {
+      background-color: var(--green);
+    }
+
+    /* border */
+    .border-light {
+      border-color: var(--light-gray);
+    }
+
+    .border-primary {
+      border-color: var(--blue);
+    }
+
+    .border-secondary {
+      border-color: var(--gray);
+    }
+
+    .border-success {
+      border-color: var(--light-green);
+    }
+
+    .border-warning {
+      border-color: orange;
+    }
+
+    .border-danger {
+      border-color: red;
+    }
+
+    .borde-green {
+      border-color: var(--green);
+    }
+
+    .border-r-50 {
+      border-radius: 50%;
+    }
+
+    .border-r-90 {
+      border-radius: 15%;
+    }
+
+    /* padding */
+    .p-1 {
+      padding: 1rem !important;
+    }
+
+    .p-2 {
+      padding: 2rem !important;
+    }
+
+    .p-3 {
+      padding: 3rem !important;
+    }
+
+    .p-4 {
+      padding: 4rem !important;
+    }
+
+    .p-5 {
+      padding: 5rem !important;
+    }
+
+    .pl-1 {
+      padding-left: 1rem !important;
+    }
+
+    .pl-2 {
+      padding-left: 2rem !important;
+    }
+
+    .pl-3 {
+      padding-left: 3rem !important;
+    }
+
+    .pl-4 {
+      padding-left: 4rem !important;
+    }
+
+    .pl-5 {
+      padding-left: 5rem !important;
+    }
+
+    .pr-1 {
+      padding-right: 1rem !important;
+    }
+
+    .pr-2 {
+      padding-right: 2rem !important;
+    }
+
+    .pr-3 {
+      padding-right: 3rem !important;
+    }
+
+    .pr-4 {
+      padding-right: 4rem !important;
+    }
+
+    .pr-5 {
+      padding-right: 5rem !important;
+    }
+
+    .pt-1 {
+      padding-top: 1rem !important;
+    }
+
+    .pt-2 {
+      padding-top: 2rem !important;
+    }
+
+    .pt-3 {
+      padding-top: 3rem !important;
+    }
+
+    .pt-4 {
+      padding-top: 4rem !important;
+    }
+
+    .pt-5 {
+      padding-top: 5rem !important;
+    }
+
+    .pb-1 {
+      padding-bottom: 1rem !important;
+    }
+
+    .pb-2 {
+      padding-bottom: 2rem !important;
+    }
+
+    .pb-3 {
+      padding-bottom: 3rem !important;
+    }
+
+    .pb-4 {
+      padding-bottom: 4rem !important;
+    }
+
+    .pb-5 {
+      padding-bottom: 5rem !important;
+    }
+
+    /* margin */
+    .m-0 {
+      margin: 0 !important;
+      ;
+    }
+
+    .m-1 {
+      margin: 1rem !important;
+      ;
+    }
+
+    .m-2 {
+      margin: 2rem !important;
+      ;
+    }
+
+    .m-3 {
+      margin: 3rem !important;
+      ;
+    }
+
+    .m-4 {
+      margin: 4rem !important;
+      ;
+    }
+
+    .m-5 {
+      margin: 5rem !important;
+      ;
+    }
+
+    .content {
+      margin-left: 15%;
+      display: grid;
+    }
+
+    .breadcrumb>a {
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--gray);
+    }
+
+    .breadcrumb>.active {
+      color: var(--blue);
+    }
+
+    .breadcrumb>.active:hover {
+      text-decoration: underline;
+    }
+
+    .dynamic-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .dynamic-container .item {
+      position: relative;
+      display: inline-block;
+      padding: 0.5rem;
+    }
+
+    .dynamic-container .item>a {
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--blue);
+    }
+
+    .dynamic-container .item>a:hover {
+      text-decoration: underline;
+    }
+
+    .badge {
+      border: 1px solid;
+      font-size: 13px;
+      padding: 0.375rem 0.3125rem;
+      margin-left: 1rem;
+    }
+
+    .table-container>table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table-container>table th,
+    td {
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .table-container>table>thead>tr>th {
+      padding: 0.5rem;
+      text-align: left;
+      background-color: var(--light-gray);
+    }
+
+    .table-container>table>thead>tr> :nth-child(1) {
+      padding: 0;
+      text-align: center;
+    }
+
+    .table-container>table>tbody>tr> :nth-child(1) {
+      padding: 0;
+      text-align: center;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1.875rem;
+    }
+
+    .form-field>label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-field>span {
+      align-self: flex-start;
+    }
+
+    .form-field>input:read-only {
+      color: var(--gray);
+    }
+
+    .form-field label.required::after {
+      content: '*';
+      color: red;
+    }
+
+    .patient-name {
+      font-size: 3.5rem;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+    .dynamic-container .item > .badge {
+      background-color: rgb(194, 244, 153);
+      color: rgb(48, 203, 48);
+      border: 1px solid rgb(194, 244, 153);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 0.375rem 0.3125rem;
+      border-radius: 50%;
+      margin-left: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <!-- Sidebar content -->
+      <div class="logo">
+        <img src="https://healthlinkph.com/wp-content/uploads/2021/08/new-logo.png" alt="Logo">
+      </div>
+      <div style="margin-bottom:10%;">
+        <button style="padding: 0px;margin-top:0px;width:100%;font-size: medium;" onclick="toggleDropdown()">
+          <span style="color: white !important;">&#x1F464;</span>&nbspPatient Records&nbsp<span class="" style="display:inline-block;" id="this-arrow">&#x25BE;</span></button>
+          <!-- <image src="https://lh3.googleusercontent.com/HlU-GbNKP_qETLnkLWgNSva5PxTiv2-KP9j5YePyoCzbHrUkvvtihgxoV7nNUi0KV8ecjPXyouUULHZlSleUrWCIQCZtxfrNipBJDdhsZl50seaymjQP1j8dXICikvw7_A=w1280" style="position:relative;width:10%;height:10%;top:2px;"></image>&nbspPatient Records&nbsp<span class="arrow">&#x25BE;</span></button> -->
+
+      </div>
+        <a href="#" class ="href-dropdown" id="dropdown-content" onclick="href_click1()">Patient Details</a>
+        <a href="#" class ="href-dropdown" id="dropdown-content2" onclick="href_click2()">Medical Records</a>
+        <a style="padding-top:110%;padding-left:20%;color: white;" href="/?cmd=web_logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+    
+    <div class="content" id="patient-details" style="display:block;">
+      <h1>Patient Demographic</h1>
+      <dev class="breadcrumb">
+        <a class="" href="/">Patient Records</a>
+        <span> / </span>
+        <a class="active" href="/">Patient Details</a>
+      </dev>
+      <div class="dynamic-container pt-5">
+        <div>
+          <div class="form-field">
+            <h1 class="patient-name">doe john x.</h1>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Status</label>
+            <span class="badge m-0 pl-1 pr-1 bg-success border-green border-r-90 text-green">Active</span>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Home Address</label>
+            <p class="text-secondary">112 Manila</p>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Personal Email Address</label>
+            <p class="text-secondary">dose@gmail</p>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Mobile Number</label>
+            <p class="text-secondary">(+63)999-999-9999</p>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Phone Number</label>
+            <p class="text-secondary">848-62-112</p>
+          </div>
+        </div>
+        <div>
+          <div class="form-field">
+            <label class="text-semi-bold">First Name</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Middle Name</label>
+            <input type="text" id="" v-model="" readonly value="test">
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Last Name</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Full Name</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Gender</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Blood Group</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Date Of Birth</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">ID Type</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">ID Number</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+        </div>
+        <div>
+          <div class="form-field">
+            <label class="text-semi-bold">Status</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Identification Number (UID)</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Report Preference</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Mobile</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Phone</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Email</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">User ID</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Patient Address</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+          <div class="form-field">
+            <label class="text-semi-bold">Guardian</label>
+            <input type="text" id="" v-model="" readonly>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content" id="medical-records" style="display:none;">
+      <h1>Medical Record</h1>
+      <!-- <button id="pdf" onclick="test_pdf()">SHOW PDF</button>
+       -->
+       <dev class="breadcrumb">
+        <a class="in-active" href="">Patient Records</a> 
+        <span> / </span>
+        <a class="active" href="">Medical Records</a>
+      </dev>
+
+      <div class="dynamic-container">
+        <div class="item">
+          <a onclick="record_click(event)">PT Ininitial Evaluation</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Care Program</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Doctor Examination Record</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Physical Therapy Visit Note</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Plan of Care</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Physical Therapy Evaluation Form</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">HCS Activity Note</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Summary of Consultation</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Food Journal Sheet</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">End Shift Endorsemen Template</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">SOAP</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Home Executive Evaluation Summary</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">ECG Template</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Health Profiling Questionnare</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Home Visit Record</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Nurse Re-assesment Report</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Medical Symptom Questionnare</a>
+          <span class="badge">+5</span>
+        </div>
+        <div class="item">
+          <a onclick="record_click(event)">Home Environment Evaluation</a>
+          <span class="badge">+5</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="content" id="single-record" style="display:none;">
+      <h1>List of Medical Records</h1>
+      
+      <dev class="breadcrumb">
+        <a class="" href="/">Patient Records</a> 
+        <span> / </span>
+        <a class="" href="/">Medical Records</a>
+        <span> / </span>
+        <a class="active" href="" id="medical-single"></a>
+      </dev>
+      
+      <dev class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th><input type="checkbox" name="test"></th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Patient</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- <tr>
+              <td><input type="checkbox" name="test"></td>
+              <td>Test 1</td>
+              <td>Submitted</td>
+              <td>John Doe</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" name="test"></td>
+              <td>Test 2</td>
+              <td>Submitted</td>
+              <td>Jane Smith</td>
+            </tr> -->
+          </tbody>
+        </table>
+      </dev>
+    </div>
+
+    
+    <script>
+      function record_click(event){
+        var pdetails = document.getElementById("patient-details");
+        var medrec = document.getElementById("medical-records");
+        var sigrec = document.getElementById("single-record");
+
+        sigrec.style.display = "block";
+        pdetails.style.display = "none";
+        medrec.style.display = "none";
+
+        var element = event.target;
+        var val = element.innerHTML;
+        console.log(val);
+        var recname = document.getElementById("medical-single");
+        recname.innerHTML = val;
+
+      }
+      function test_pdf(){
+        var doctype = "Patient Assessment"
+        var name = "HLC-PA-2023-00002"
+        
+        url = window.location.origin+"/api/method/frappe.utils.print_format.download_pdf?doctype="+doctype+"&name="+name+"&format=Standard&no_letterhead=1&letterhead=No%20Letterhead&settings=%7B%7D&_lang=en"
+          window.open(url);
+      }
+      function toggleDropdown() {
+        var dropdownarrow = document.getElementById("this-arrow");
+       
+        var dropdownContent = document.getElementById("dropdown-content");
+        if (dropdownContent.style.display === "none") {
+          dropdownContent.style.display = "block";
+          dropdownContent.classList.add("fly-out");
+          dropdownarrow.classList.remove("rotate-span");
+        } else {
+          dropdownContent.style.display = "none";
+          dropdownContent.classList.remove("fly-out");
+          dropdownarrow.classList.add("rotate-span")
+
+        }
+        var dropdownContent2 = document.getElementById("dropdown-content2");
+        if (dropdownContent2.style.display === "none") {
+          dropdownContent2.style.display = "block";
+          dropdownContent2.classList.add("fly-out");
+        } else {
+          dropdownContent2.style.display = "none";
+          dropdownContent2.classList.remove("fly-out");
+        }
+
+      }
+      function href_click1(){
+      var d1 = document.getElementById("dropdown-content");
+      var d2 = document.getElementById("dropdown-content2");
+      var pdetails = document.getElementById("patient-details");
+      var medrec = document.getElementById("medical-records");
+      var sigmed = document.getElementById("single-record");
+
+      d1.classList.add("active");
+      d2.classList.remove("active");
+      medrec.style.display = "none";
+      pdetails.style.display = "block";
+      sigmed.style.display = "none";
+      }
+      function href_click2(){
+      var d1 = document.getElementById("dropdown-content");
+      var d2 = document.getElementById("dropdown-content2");
+      d2.classList.add("active");
+      d1.classList.remove("active");
+
+      var pdetails = document.getElementById("patient-details");
+      var medrec = document.getElementById("medical-records");
+      var sigmed = document.getElementById("single-record");
+
+
+      medrec.style.display = "inline-block";
+      pdetails.style.display = "none";
+      sigmed.style.display = "none";
+
+      }
+
+      
+    </script>
+</body>
+
+</html>

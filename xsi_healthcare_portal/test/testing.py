@@ -1,6 +1,16 @@
 import frappe
 import json
 
+from xsi_healthcare_portal.utils.patient import get_patient_details
+from xsi_healthcare_portal.utils.medical_record import get_medical_record_list
+from xsi_healthcare_portal.utils.medical_record import get_medical_record_by_name
+from xsi_healthcare_portal.utils.medical_record import get_medical_record_count
+
+
+# from frappe.utils.pdf import get_pdf
+# import frappe.utils.print_format.get_pdf as get_pdf
+
+
 @frappe.whitelist(allow_guest=True)
 def test0002():
     subject = "FOR HEALTH CARE"
@@ -13,14 +23,28 @@ def test0002():
         return e
     
     return "SUCCESS"
+
+@frappe.whitelist(allow_guest=True)
+def test0004():
+    # pdf = get_pdf(,) 
+    return get_medical_record_count("Gregorio Pilar")
+    
+@frappe.whitelist(allow_guest=True)
+def test0003():
+
+    return get_medical_record_list("PT Initial Evaluation", "Gregorio Pilar")
+    # return get_medical_record_by_name("PT Initial Evaluation", "HL-PTIE-001")
+
+
 @frappe.whitelist(allow_guest=True)
 def test0001():
 
     # patients = frappe.get_all("Address",filters={"name": "John Doe-Billing"},fields={"name","link_doctype"})
     # return patients
 
-    Address = frappe.get_all("POE Emails",fields="email")
-    return Address
+    # Address = frappe.get_all("POE Emails",fields="email")
+    # return Address
+    return get_patient_details("Chloe Alipon")
 @frappe.whitelist(allow_guest=True)
 def get_poe_emails():
     emails = []
