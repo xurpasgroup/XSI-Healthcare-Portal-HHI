@@ -29,6 +29,7 @@ def insert_patient(data):
         patient.email = email
         patient.invite_user = 0
         patient.guardian = guardian
+        patient.patient_address = f"""{addressline} {city} City"""
         newpatient = patient.insert(ignore_permissions=True)
 
         patient_address = frappe.new_doc("Address")
